@@ -52,6 +52,7 @@ const Page = ()=>{
             router.refresh();
             if(nextUrl){
                 router.push(`/${nextUrl}`);
+                router.refresh();
                 return
             }
             if(isSeller){
@@ -59,6 +60,7 @@ const Page = ()=>{
                 return
             }
             router.push("/");
+            router.refresh();
         }
     });
 
