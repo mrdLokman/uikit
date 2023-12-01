@@ -1,6 +1,6 @@
 import {z} from "zod";
 
-export const AccountCredentialsValidator = z.object({
+export const SignInCredentialsValidator = z.object({
     email: z.string().email(),
     password: z
         .string()

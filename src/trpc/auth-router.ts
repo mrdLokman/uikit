@@ -1,5 +1,5 @@
 import {publicProcedure, router} from "./trpc";
-import {AccountCredentialsValidator, VerifyEmailValidator} from "../lib/validators";
+import {AccountCredentialsValidator, VerifyEmailValidator, SignInCredentialsValidator} from "../lib/validators";
 import {getPayloadClient} from "../get-payload";
 import {TRPCError} from "@trpc/server";
 
@@ -11,8 +11,6 @@ export const authRouter = router({
             const {email, password} = input;
             const payload = await getPayloadClient();
 
-            console.log(`Registrin EMAIL:${email}, PWD: ${password}`)
-            payload.logger.info(`Registrin EMAIL:${email}, PWD: ${password}`)
 
             const { docs: users } = await payload.find({
                 collection: "users",
@@ -38,6 +36,28 @@ export const authRouter = router({
             return { success: true, sentToEmail: email }
         }),
 
+    signInUser: publicProcedure
+        .input(SignInCredentialsValidator)
+        .mutation(async ({input, ctx}) => {
+            const {email, password} = input;
+            const payload = await getPayloadClient();
+            const { res } = ctx;
+            try{
+                await payload.login({
+                    collection: "users",
+                    data: {
+                        email,
+                        password
+                    },
+                    res
+                })
+
+                return { success: true }
+            }catch (err){
+                throw new TRPCError({code: "UNAUTHORIZED"})
+            }
+        }),
+
     verifyEmail: publicProcedure
         .input(VerifyEmailValidator)
         .query(async ({input})=>{
@@ -48,6 +68,7 @@ export const authRouter = router({
                 collection: "users",
                 token
             })
+
 
             if(!isVerified){
                 throw new TRPCError({code: "UNAUTHORIZED"})
