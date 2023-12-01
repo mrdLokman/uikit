@@ -9,4 +9,3 @@ export const AccountCredentialsValidator = z.object({
         })
 });
 
-export type TAccountCredentialsValidator = z.infer<typeof AccountCredentialsValidator>;

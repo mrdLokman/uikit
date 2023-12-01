@@ -9,7 +9,7 @@ import {Input} from "@/components/ui/input";
 import {cn} from "@/lib/utils";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {AccountCredentialsValidator, TAccountCredentialsValidator} from "@/lib/validators/account-credencial-validator";
+import {AccountCredentialsValidator, TAccountCredentialsValidator} from "@/lib/validators";
 import {trpc} from "@/trpc/client";
 
 const Page = ()=>{
