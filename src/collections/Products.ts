@@ -35,6 +35,7 @@ export const Products: CollectionConfig = {
             name: 'price',
             label: 'Price in USD',
             type: 'number',
+            required: true,
             min: 1,
             max: 1000
         },

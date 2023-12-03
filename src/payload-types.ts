@@ -39,7 +39,7 @@ export interface Product {
   user?: (string | null) | User;
   name?: string | null;
   description?: string | null;
-  price?: number | null;
+  price: number;
   category: 'ui_kits' | 'icons';
   product_files: string | ProductFile;
   approved_for_sale: 'pending' | 'approved' | 'rejected';
