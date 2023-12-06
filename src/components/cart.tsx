@@ -10,8 +10,14 @@ import Image from "next/image";
 import {useCart} from "@/hooks/use-cart";
 import {CartItem} from "@/components/cart-item";
 import {ScrollArea} from "@/components/ui/scroll-area";
+import {useEffect, useState} from "react";
 
 const Cart = ()=>{
+    const [isMounted, setIsMounted] = useState(false);
+
+    useEffect(() => {
+        setIsMounted(true)
+    }, []);
 
     const {items} = useCart();
 
@@ -22,19 +28,19 @@ const Cart = ()=>{
     return <Sheet>
         <SheetTrigger className="group -m-2 flex items-center p-2">
             <ShoppingCart aria-hidden="true" className="w-6 h-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"/>
-            <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{items.length??0}</span>
+            <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{isMounted?items.length:0}</span>
         </SheetTrigger>
 
         <SheetContent className="flex w-full flex-col pr-0 sm:max-w-lg">
             <SheetHeader className="space-y-2.5 pr-6">
-                <SheetTitle>Cart ({items.length??0})</SheetTitle>
+                <SheetTitle>Cart ({isMounted?items.length:0})</SheetTitle>
             </SheetHeader>
-            { items.length && items.length > 0?
+            { isMounted && items.length && items.length > 0?
                 (
                     <>
                         <div className="flex flex-col w-full pr-6">
                         <ScrollArea>
-                            {items.map(({product}, index)=>(
+                            {isMounted && items.map(({product}, index)=>(
                                 <CartItem product={product} key={product.id} />
                             ))}
                         </ScrollArea>
