@@ -8,6 +8,8 @@ import Link from "next/link";
 import {Button} from "@/components/ui/button";
 import {Check, Loader2, X} from 'lucide-react'
 import {useEffect, useState} from "react";
+import {trpc} from "@/trpc/client";
+import {useRouter} from "next/navigation";
 
 const Page = ()=>{
 
@@ -17,12 +19,28 @@ const Page = ()=>{
         setIsMounted(true)
     }, []);
 
+    const router = useRouter();
 
     const {items, removeItem} = useCart();
 
     const cartTotal = items.reduce((total, item)=>total+item.product.price, 0);
 
     const fee = 1;
+
+    const { mutate, isLoading } = trpc.payment.createSession.useMutation({
+        onSuccess: ({url})=>{
+            if(url){
+                router.push(url);
+            }
+        },
+    });
+
+    const createCheckoutSession = ()=>{
+        const productIds = items.map(({product})=>{
+            return product.id;
+        })
+        mutate({productIds});
+    }
 
     return (
         <div className="bg-white">
@@ -154,10 +172,15 @@ const Page = ()=>{
 
                         <div className="mt-6">
                             <Button
+                                disabled={!isMounted || items.length===0 || isLoading}
                                 className="w-full"
                                 size="lg"
+                                onClick={createCheckoutSession}
                             >
-                                Checkout
+                                {isLoading ?
+                                    (<Loader2 className="w-4 h-4 animate-spin mr-1.5"/>)
+                                    :"Checkout"
+                                }
                             </Button>
                         </div>
                     </section>

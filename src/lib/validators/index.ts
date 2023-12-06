@@ -3,6 +3,7 @@ import { AccountCredentialsValidator } from './account-credencial-validator'
 import { SignInCredentialsValidator } from './sign-in-credencial-validator'
 import { ProductQueryValidator } from "./product-query-validator";
 import { QueryValidator } from "./query-validator";
+import { PaymentSessionValidator } from './payment-session-validator';
 import {z} from "zod";
 
 
@@ -11,7 +12,8 @@ export {
     AccountCredentialsValidator,
     SignInCredentialsValidator,
     ProductQueryValidator,
-    QueryValidator
+    QueryValidator,
+    PaymentSessionValidator
 }
 
 export type TAccountCredentialsValidator = z.infer<typeof AccountCredentialsValidator>;
