@@ -13,6 +13,10 @@
 /.next/
 /out/
 
+/src/media/
+/src/product_files/
+
+
 .idea
 
 # production
@@ -29,7 +33,7 @@ yarn-error.log*
 
 # local env files
 .env*.local
-
+.env
 # vercel
 .vercel
 
