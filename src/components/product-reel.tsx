@@ -66,7 +66,7 @@ export const ProductReel = (props: ProductReelProps)=> {
                 <div className="mt-6 w-full flex items-center">
                     <div className="w-full grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 md:grid-cols-4 md:gap-y-10 lg:gap-x-8">
                         {map.map((item, index) => (
-                            <ProductListing key={item?.id} product={item} index={index} />
+                            <ProductListing key={`product-reel-${index}`} product={item} index={index} />
                         ))}
                     </div>
                 </div>
